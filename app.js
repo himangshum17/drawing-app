@@ -1,36 +1,47 @@
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const drawingCanvas = document.getElementById("drawing-canvas");
+const artBoard = document.getElementById("artboard");
+const ctx = drawingCanvas.getContext("2d");
+const ctxOne = artboard.getContext("2d");
 const increaseBtn = document.getElementById("increase");
 const decreaseBtn = document.getElementById("decrease");
 const brushSize = document.getElementById("brushsize");
 const brushColor = document.getElementById("brushcolor");
+const artboardColor = document.getElementById("artboardcolor");
 
 let lineWidth = 5;
 let drawIng = false;
 let strokeColor = "black";
-let bgColor = "white";
+let artBoardcolor = "white";
 
 // resizing canvas
  function resize() {
-     canvas.width = window.innerWidth;
-     canvas.height = window.innerHeight;
-     ctx.fillStyle = bgColor;
-     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawingCanvas.width = window.innerWidth ;
+    drawingCanvas.height = window.innerHeight;
+    artboard.width = window.innerWidth;
+    artboard.height = window.innerHeight;
+    canvasArtboard();
  }
 resize();
+
 window.addEventListener("resize", resize);
 
+// canvas artboard
+function canvasArtboard() {
+    ctxOne.fillStyle = artBoardcolor;
+    ctxOne.fillRect(0, 0, artboard.width, artboard.height);
+}
+
 // event listners
-canvas.addEventListener("mousedown", () => {
+drawingCanvas.addEventListener("mousedown", () => {
     drawIng = true;
 });
 
-canvas.addEventListener("mouseup", () => {
+drawingCanvas.addEventListener("mouseup", () => {
     drawIng = false;
     ctx.beginPath();
 });
 
-canvas.addEventListener("mousemove", (e) => {
+drawingCanvas.addEventListener("mousemove", (e) => {
    if(drawIng === true){
       const x = e.offsetX;
       const y = e.offsetY;
@@ -58,6 +69,11 @@ decreaseBtn.addEventListener("click", () => {
 
 brushColor.addEventListener("change", (e)=>{
     strokeColor = e.target.value;
+});
+
+artboardColor.addEventListener("change", (e)=>{
+    artBoardcolor = e.target.value;
+    canvasArtboard();
 });
 
 //  drawing line
